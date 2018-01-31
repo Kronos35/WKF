@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+
+	<title>WKF Score Board</title>
+
+</head>
+<body>
+	<div id="app">
+		<div class="container">
+			
+			<div class="row text-center">
+                <div class="col">
+                	<div class="col">
+                	<h4>Ultimate WKF ScoreBoard</h4>	
+                	</div>
+                </div>
+            </div>
+            <div class="row text-center">
+            	<div class="col"> <h2> Division: {{division}} </h2> </div>
+            </div>
+
+            <div class="row text-center">
+            	<div class="col"><h3>Ao: {{ao.name}} </h3></div>
+            	<div class="col"><h3>{{timer.status}}</h3></div>
+            	<div class="col"><h3>Aka: {{aka.name}} </h3></div>
+            </div>
+
+            <div class="score-board row text-center">
+            	<div class="col"><h1>{{ao.points}}</h1></div>
+            	<div class="col" id="timer">0{{timer.minutes}}:{{placeholder}}{{timer.seconds}}</div>
+            	<div class="col"><h1>{{aka.points}}</h1></div>
+            </div>
+
+			<div class="row text-center">
+				<div class="col card ao">
+				<div class="container">
+					<div class="row text-center">
+		            	<div class="col card"><h3>C1</h3></div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C1.w}" @click="ao_chukoku_c1">W</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C1.k}" @click='ao_keikoku_c1'>K</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C1.hc}" @click='ao_hansoku_chui_c1'>HC</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C1.h}" @click='ao_hansoku_c1'>H</div>
+		            </div>
+		            <div class="row text-center">
+		            	<div class="col card"><h3>C2</h3></div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C2.w}" @click="ao_chukoku_c2">W</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C2.k}" @click='ao_keikoku_c2'>K</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C2.hc}" @click='ao_hansoku_chui_c2'>HC</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: ao.C2.h}" @click='ao_hansoku_c2'>H</div>
+		            </div>
+		            <div class="row text-center">
+		            	<div class="col"><button v-on:click="ao_ippon" class="btn btn-primary">Ippon</button></div>
+		            	<div class="col"><button v-on:click="ao_wazaari" class="btn btn-primary">Waza-ari</button></div>
+		            	<div class="col"><button v-on:click="ao_yuko" class="btn btn-primary">Yuko</button></div>
+		            </div>
+		            <div class="row text-center">
+			            <div class="col">
+			            	<button class="btn btn-primary"> Shikkaku </button>
+			        	</div>
+	            		<div class="col">
+	            			<button class="btn btn-primary"> Kikken </button>
+	            		</div>
+            		</div>
+		        </div>
+	            </div>
+
+	            <div class="col card aka">
+				<div class="container">
+					<div class="row text-center">
+		            	<div class="col card"><h3>C1</h3></div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C1.w}" @click="aka_chukoku_c1">W</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C1.k}" @click='aka_keikoku_c1'>K</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C1.hc}" @click='aka_hansoku_chui_c1'>HC</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C1.h}" @click='aka_hansoku_c1'>H</div>
+		            </div>
+		            <div class="row text-center">
+		            	<div class="col card"><h3>C2</h3></div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C2.w}" @click="aka_chukoku_c2">W</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C2.k}" @click='aka_keikoku_c2'>K</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C2.hc}" @click='aka_hansoku_chui_c2'>HC</div>
+		            	<div class="col circle border border-white" v-bind:class="{selected: aka.C2.h}" @click='aka_hansoku_c2'>H</div>
+		            </div>
+		            <div class="row text-center">
+		            	<div class="col"><button v-on:click="aka_ippon" class="btn btn-danger">Ippon</button></div>
+		            	<div class="col"><button v-on:click="aka_wazaari" class="btn btn-danger">Waza-ari</button></div>
+		            	<div class="col"><button v-on:click="aka_yuko" class="btn btn-danger">Yuko</button></div>
+		            </div>
+		            <div class="row text-center">
+			            <div class="col">
+			            	<button class="btn btn-danger"> Shikkaku </button>
+			        	</div>
+	            		<div class="col">
+	            			<button class="btn btn-danger"> Kikken </button>
+	            		</div>
+            		</div>
+		        </div>
+	            </div>
+            </div>
+            <div class="row text-center">
+            	<div class="col">
+            		<button class="btn btn-success" @click="start_tiempo">Hajime</button>
+            	</div>
+        	</div>
+        	<div class="row text-center">
+            	<div class="col">
+            		<button class="btn btn-danger" @click="clear_board">Restart</button>
+            	</div>
+        	</div>
+            <div class="row text-center">
+            	<div class="col">
+	            	<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-sm">Ao name: </span>
+						</div>
+						<input type="text" class="form-control" aria-label="Small" v-model='ao.name' aria-describedby="inputGroup-sizing-sm" v-bind:value="ao.name">
+					</div>
+				</div>
+				<div class="col">
+	            	<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-sm">Aka name: </span>
+						</div>
+						<input type="text" class="form-control" aria-label="Small" v-model='aka.name' aria-describedby="inputGroup-sizing-sm" v-bind:value="aka.name">
+					</div>
+				</div>
+            </div>           
+		</div>
+	</div>
+	<script src="js/app.js"></script>
+</body>
+</html>
